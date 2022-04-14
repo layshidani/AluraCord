@@ -13,5 +13,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
+  },
+  "devDependencies": {
+    "@skynexui/components": "^1.25.0"
   }
 }
