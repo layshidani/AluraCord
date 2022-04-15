@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 function GlobalStyle() {
     return (
         <style global jsx>{`
@@ -33,6 +35,9 @@ export default function CustomApp({ Component, pageProps }) {
     console.log('Roda em todas as páginas!');
     return (
         <>
+            <Head>
+                <link rel="shortcut icon" href="/favicon.png" />
+            </Head>
             <GlobalStyle />
             <Component {...pageProps} />
         </>
