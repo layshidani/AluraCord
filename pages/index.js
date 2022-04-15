@@ -35,6 +35,8 @@ function Title(props) {
 export default function HomePage() {
     // const username = 'layshidani';
     const [username, setUsername] = React.useState('layshidani');
+    const usernameMinLength = 2;
+
     const roteamento = useRouter();
 
     return (
@@ -67,7 +69,7 @@ export default function HomePage() {
                         as="form"
                         onSubmit={function (infosDoEvento) {
                             infosDoEvento.preventDefault();
-                            console.log('Alguém submeteu o form');
+                            console.log('Alguém submeteu o form', infosDoEvento);
                             roteamento.push('/chat');
                             // window.location.href = '/chat';
                         }}
@@ -123,6 +125,7 @@ export default function HomePage() {
                                 mainColorLight: appConfig.theme.colors.primary[400],
                                 mainColorStrong: appConfig.theme.colors.primary[600],
                             }}
+                            disabled={username?.length < usernameMinLength}
                         />
                     </Box>
                     {/* Formulário */}
