@@ -1,42 +1,10 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
-
+import React from 'react';
+import { useRouter } from 'next/router';
 import appConfig from '../config.json';
-
-function GlobalStyle(params) {
-    return (
-        <style global jsx>{`
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-    }
-
-    body {
-        font-family: 'Open Sans', sans-serif;
-    }
-
-    /* App fit Height */
-    html, body, #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-    }
-    #__next {
-        flex: 1;
-    }
-      #__next > * {
-        flex: 1;
-    }
-
-      /* ./App fit Height */
-    `}</style>
-    );
-}
 
 function Title(props) {
     const Tag = props.tag || 'h1';
-
     return (
         <>
             <Tag>{props.children}</Tag>
@@ -51,23 +19,26 @@ function Title(props) {
     );
 }
 
+// Componente React
 // function HomePage() {
+//     // JSX
 //     return (
 //         <div>
 //             <GlobalStyle />
-//             <Title tag="h1">Boas vindas de volta!</Title>
-//             <h2>AluraCord - Matrix</h2>
+//             <Title tag="h2">Boas vindas de volta!</Title>
+//             <h2>Discord - Alura Matrix</h2>
 //         </div>
 //     )
 // }
-// export default HomePage;
+// export default HomePage
 
 export default function HomePage() {
-    const username = 'layshidani';
+    // const username = 'layshidani';
+    const [username, setUsername] = React.useState('layshidani');
+    const roteamento = useRouter();
 
     return (
         <>
-            <GlobalStyle />
             <Box
                 styleSheet={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -94,6 +65,12 @@ export default function HomePage() {
                     {/* Formulário */}
                     <Box
                         as="form"
+                        onSubmit={function (infosDoEvento) {
+                            infosDoEvento.preventDefault();
+                            console.log('Alguém submeteu o form');
+                            roteamento.push('/chat');
+                            // window.location.href = '/chat';
+                        }}
                         styleSheet={{
                             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                             width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
@@ -104,7 +81,28 @@ export default function HomePage() {
                             {appConfig.name}
                         </Text>
 
+                        {/* <input
+                            type="text"
+                            value={username}
+                            onChange={function (event) {
+                                console.log('usuario digitou', event.target.value);
+                                // Onde ta o valor?
+                                const valor = event.target.value;
+                                // Trocar o valor da variavel
+                                // através do React e avise quem precisa
+                                setUsername(valor);
+                            }}
+                        /> */}
                         <TextField
+                            value={username}
+                            onChange={function (event) {
+                                console.log('usuario digitou', event.target.value);
+                                // Onde ta o valor?
+                                const valor = event.target.value;
+                                // Trocar o valor da variavel
+                                // através do React e avise quem precisa
+                                setUsername(valor);
+                            }}
                             fullWidth
                             textFieldColors={{
                                 neutral: {
