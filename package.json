@@ -1,20 +1,22 @@
 {
-  "name": "aluracord",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "next": "^12.1.5",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
-  },
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "devDependencies": {
-    "@skynexui/components": "^1.25.0"
-  }
+    "name": "aluracord",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "dependencies": {
+        "next": "^12.1.5",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0"
+    },
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "devDependencies": {
+        "@skynexui/components": "^1.25.0",
+        "eslint": "8.13.0",
+        "eslint-config-next": "12.1.5"
+    }
 }
