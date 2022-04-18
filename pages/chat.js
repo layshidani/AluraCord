@@ -1,10 +1,23 @@
-import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
+import { Box, Text, TextField, Image, Button } from '@skynexui/components';
+import { createClient } from '@supabase/supabase-js'
+
 import appConfig from '../config.json';
+import { environment } from '../environments/environments';
+
+const supabaseClient = createClient(environment.SUPASE_URL, environment.SUPABASE_ANON_KEY);
 
 export default function ChatPage() {
     const [message, setmessage] = React.useState('');
     const [messageList, setMessageList] = React.useState([]);
+
+    React.useEffect(() => {
+        supabaseClient
+            .from('messageList')
+            .select('*')
+            .order('id', { ascending: false })
+            .then(({ data }) => setMessageList(data))
+    }, []);
 
     /*
     // Usuário
@@ -19,15 +32,20 @@ export default function ChatPage() {
     */
     function handleNewMessage(newMessage) {
         const message = {
-            id: messageList.length + 1,
             from: 'layshidani',
             text: newMessage,
         };
 
-        setMessageList([
-            message,
-            ...messageList,
-        ]);
+        supabaseClient
+            .from('messageList')
+            .insert([message])
+            .then(({ data }) => {
+                setMessageList([
+                    data[0],
+                    ...messageList,
+                ]);
+            });
+
         setmessage('');
     }
 
@@ -174,7 +192,7 @@ function MessageList(props) {
                                     display: 'inline-block',
                                     marginRight: '8px',
                                 }}
-                                src={`https://github.com/layshidani.png`}
+                                src={`https://github.com/${message.from}.png`}
                             />
                             <Text tag="strong">
                                 {message.from}
