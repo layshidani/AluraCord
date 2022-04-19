@@ -1,6 +1,7 @@
-import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import React from 'react';
 import { useRouter } from 'next/router';
+
+import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import appConfig from '../config.json';
 
 function Title(props) {
@@ -37,7 +38,7 @@ export default function HomePage() {
     const [username, setUsername] = React.useState('layshidani');
     const usernameMinLength = 2;
 
-    const roteamento = useRouter();
+    const router = useRouter();
 
     return (
         <>
@@ -70,7 +71,7 @@ export default function HomePage() {
                         onSubmit={function (infosDoEvento) {
                             infosDoEvento.preventDefault();
                             console.log('Alguém submeteu o form', infosDoEvento);
-                            roteamento.push('/chat');
+                            router.push(`/chat?username=${username}`);
                             // window.location.href = '/chat';
                         }}
                         styleSheet={{
