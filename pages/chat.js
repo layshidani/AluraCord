@@ -10,6 +10,16 @@ import { ButtonSendSticker } from '../src/components/buttonSendSticker';
 
 const supabaseClient = createClient(environment.SUPASE_URL, environment.SUPABASE_ANON_KEY);
 
+function realTimeMessagesListener(handleNewMessage) {
+    supabaseClient
+        .from('messageList')
+        .on('INSERT', (data) => {
+            handleNewMessage(data.new);
+        })
+        .subscribe();
+
+}
+
 export default function ChatPage() {
     const router = useRouter();
     const username = router?.query?.username;
@@ -24,7 +34,30 @@ export default function ChatPage() {
             .select('*')
             .order('id', { ascending: false })
         .then(({ data }) => setMessageList(data))
+        const subscription = realTimeMessagesListener((newMessage) => {
+            // console.log('Nova mensagem:', newMessage);
+            // console.log('listaDeMensagens:', messageList);
+            // Quero reusar um valor de referencia (objeto/array)
+            // Passar uma função pro setState
+
+            // setmessageList([
+            //     newMessage,
+            //     ...messageList
+            // ])
+            setMessageList((newList) => {
+                // console.log('newList:', newList);
+                return [
+                    newMessage,
+                    ...newList,
+                ]
+            });
+        });
+
+        return () => {
+            subscription.unsubscribe();
+        }
     }, []);
+
 
     /*
     // Usuário
@@ -47,10 +80,10 @@ export default function ChatPage() {
             .from('messageList')
             .insert([message])
             .then(({ data }) => {
-                setMessageList([
-                    data[0],
-                    ...messageList,
-                ]);
+                // setMessageList([
+                //     data[0],
+                //     ...messageList,
+                // ]);
             });
 
         setmessage('');
@@ -166,7 +199,7 @@ function Header() {
 }
 
 function MessageList(props) {
-    console.log(props);
+    // console.log(props);
     return (
         <Box
             tag="ul"
