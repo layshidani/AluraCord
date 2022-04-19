@@ -6,6 +6,7 @@ import { createClient } from '@supabase/supabase-js'
 
 import appConfig from '../config.json';
 import { environment } from '../environments/environments';
+import { ButtonSendSticker } from '../src/components/buttonSendSticker';
 
 const supabaseClient = createClient(environment.SUPASE_URL, environment.SUPABASE_ANON_KEY);
 
@@ -13,14 +14,16 @@ export default function ChatPage() {
     const router = useRouter();
     const username = router?.query?.username;
     const [message, setmessage] = React.useState('');
-    const [messageList, setMessageList] = React.useState([]);
+    const [messageList, setMessageList] = React.useState([
+
+    ]);
 
     React.useEffect(() => {
         supabaseClient
             .from('messageList')
             .select('*')
             .order('id', { ascending: false })
-            .then(({ data }) => setMessageList(data))
+        .then(({ data }) => setMessageList(data))
     }, []);
 
     /*
@@ -130,6 +133,13 @@ export default function ChatPage() {
                                 color: appConfig.theme.colors.neutrals[200],
                             }}
                         />
+                        <ButtonSendSticker
+                            // callback
+                            onStickerClick={(sticker) => {
+                                // console.log('[USANDO O COMPONENTE] Salva esse sticker no banco', sticker);
+                                handleNewMessage(':sticker: ' + sticker);
+                            }}
+                        />
                     </Box>
                 </Box>
             </Box>
@@ -212,7 +222,14 @@ function MessageList(props) {
                                 {(new Date().toLocaleDateString())}
                             </Text>
                         </Box>
-                        {message.text}
+
+                        {message.text.startsWith(':sticker:')
+                            ? (
+                                <Image src={message.text.replace(':sticker:', '')} />
+                            )
+                            : (
+                                message.text
+                            )}
                     </Text>
                 );
             })}
