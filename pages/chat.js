@@ -6,7 +6,7 @@ import { createClient } from '@supabase/supabase-js'
 
 import appConfig from '../config.json';
 import { environment } from '../environments/environments';
-import { ButtonSendSticker } from '../src/components/buttonSendSticker';
+import { ButtonSendSticker } from '../src/components/ButtonSendSticker';
 
 const supabaseClient = createClient(environment.SUPASE_URL, environment.SUPABASE_ANON_KEY);
 
